@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/titl_edt"
+            android:id="@+id/title_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/title">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/descricaoEdt"
+            android:id="@+id/description_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -47,10 +47,19 @@
         app:layout_constraintTop_toBottomOf="@id/descricao">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/mensagemEdt"
+            android:id="@+id/menssage_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        app:layout_constraintTop_toBottomOf="@id/mensagem"
+        android:id="@+id/favorito"
+        android:src="@drawable/start_border"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/cadastrar"
@@ -58,9 +67,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Cadastrar"
+        android:backgroundTint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mensagem" />
+        app:layout_constraintTop_toBottomOf="@id/favorito" />
+
+    <Button
+        android:id="@+id/atualizar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="atualizar"
+        android:backgroundTint="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cadastrar" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

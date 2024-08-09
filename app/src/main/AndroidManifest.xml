@@ -13,7 +13,7 @@
         android:theme="@style/Theme.ProjetoEstudoMatheus"
         tools:targetApi="31" >
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.ListActivity"
             android:exported="false"
             android:theme="@style/Theme.ProjetoEstudoMatheus" />
         <activity

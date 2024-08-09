@@ -1,7 +1,8 @@
 package com.example.projetoestudomatheus.data
 
 data class Noticias(
-    val title:String = "",
-    val description:String = "",
-    val mensagem:String = ""
+    var title:String = "",
+    var description:String = "",
+    var mensagem:String = "",
+    var favoritado:Boolean = false,
 )
