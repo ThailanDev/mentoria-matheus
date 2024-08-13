@@ -8,4 +8,4 @@ O objetivo principal deste repositório é apoiar o aprendizado e o crescimento 
 
 ## Progresso
 
-A pessoa que estou ensinando tem demonstrado uma evolução significativa, superando desafios e assimilando novos conhecimentos com rapidez e eficácia. Este progresso me dá fortes expectativas de que continuará a crescer e a se desenvolver como profissional.
+A pessoa que estou ensinando tem demonstrado uma evolução significativa, superando desafios e assimilando novos conhecimentos com rapidez e eficácia. Este progresso me dá fortes expectativas.
