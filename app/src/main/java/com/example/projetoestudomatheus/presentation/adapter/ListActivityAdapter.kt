@@ -11,9 +11,9 @@ import com.example.projetoestudomatheus.data.Noticias
 import com.example.projetoestudomatheus.databinding.ItemRecyclerBinding
 
 class ListActivityAdapter(
-    val delete: (Noticias) -> Unit,
-    val update: (Noticias) -> Unit,
-    val favorite: (Noticias) -> Unit
+    val delete: (Noticias) -> Unit = {},
+    val update: (Noticias) -> Unit = {},
+    val favorite: (Noticias) -> Unit = {}
 ) : ListAdapter<Noticias, ListActivityAdapter.MainViewHolder>(ListActivityAdapter) {
 
     inner class MainViewHolder(

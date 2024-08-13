@@ -7,6 +7,7 @@ class DataBase {
     }
 
     fun getList() = list
+    fun getListFavoritos() = list.filter { it.favoritado }
 
     fun delete(key: String) {
         val newList = list.filter { key != it.title }

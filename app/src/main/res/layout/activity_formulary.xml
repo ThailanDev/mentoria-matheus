@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:padding="30dp"
-    tools:context=".presentation.FormularyActivity">
+    tools:context=".presentation.form.FormularyActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title"

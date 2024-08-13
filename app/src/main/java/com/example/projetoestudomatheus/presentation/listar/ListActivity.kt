@@ -1,4 +1,4 @@
-package com.example.projetoestudomatheus.presentation
+package com.example.projetoestudomatheus.presentation.listar
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.projetoestudomatheus.data.DataBase
 import com.example.projetoestudomatheus.data.Noticias
 import com.example.projetoestudomatheus.databinding.ListActivityBinding
+import com.example.projetoestudomatheus.presentation.form.FormularyActivity
 import com.example.projetoestudomatheus.presentation.adapter.ListActivityAdapter
+import com.example.projetoestudomatheus.presentation.favoritos.FavoritosActivity
 
 class ListActivity : AppCompatActivity() {
 
@@ -31,7 +33,13 @@ class ListActivity : AppCompatActivity() {
             val intent = Intent(this@ListActivity, FormularyActivity::class.java)
             startActivity(intent)
         }
+
+        floatingFavorite.setOnClickListener {
+            val intent = Intent(this@ListActivity, FavoritosActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 
     private fun delete(item: Noticias) {
         DataBase().delete(item.title)
