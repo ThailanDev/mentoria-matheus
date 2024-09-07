@@ -3,6 +3,7 @@ package com.example.projetoestudomatheus.presentation.form
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import com.example.projetoestudomatheus.R
@@ -15,73 +16,25 @@ import com.google.android.material.textfield.TextInputLayout
 class FormularyActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityFormularyBinding.inflate(layoutInflater) }
-    var foiFavoritado = false
+    private val viewModel: FormularyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        intent.extras?.getString("titulo")?.let { identificador ->
-            atualizarItem(identificador)
-        }
-
-        criarNovaNoticia()
-        configurarClickFavoritar()
+        isToUpdate()
+        observer()
+        setupRegisterAndFavoriteClick()
     }
 
-    private fun atualizarItem(identificador: String) = with(binding) {
-        val meuItem = DataBase().getItem(identificador)
-
-        foiFavoritado = meuItem?.favoritado ?: false
-
-        titleEdit.setText(meuItem?.title.toString())
-        descriptionEdit.setText(meuItem?.description.toString())
-        menssageEdit.setText(meuItem?.mensagem.toString())
-
-        if (meuItem?.favoritado == true) {
-            favorito.setBackgroundResource(R.drawable.start_full)
-        } else {
-            favorito.setBackgroundResource(R.drawable.start_border)
-        }
-
-        configStatusDoBotaoCadastrar()
-
-        configurarBotaoAtualizar(identificador)
-    }
-
-    private fun configStatusDoBotaoCadastrar() = with(binding) {
-        cadastrar.isEnabled = false
-        cadastrar.setBackgroundColor(Color.GRAY)
-        cadastrar.setTextColor(Color.WHITE)
-    }
-
-    private fun criarNovaNoticia() = with(binding) {
-        cadastrar.setOnClickListener {
-            if (isValidFields()) {
-                createNewObject(
-                    Noticias(
-                        title = titleEdit.text.toString(),
-                        description = descriptionEdit.text.toString(),
-                        mensagem = menssageEdit.text.toString(),
-                        favoritado = foiFavoritado
-                    )
-                )
-                navigateToMainActivity()
-            }
+    private fun isToUpdate(){
+        intent.extras?.getString(TITLE_KEY)?.let { identification ->
+            updateItem(identification)
         }
     }
 
-    private fun configurarBotaoAtualizar(identificador: String) = with(binding) {
-        atualizar.setOnClickListener {
-            val objetoNovo = Noticias(
-                title = titleEdit.text.toString(),
-                description = descriptionEdit.text.toString(),
-                mensagem = menssageEdit.text.toString(),
-                favoritado = foiFavoritado
-            )
-            DataBase().updateItem(identificador, objetoNovo)
-            navigateToMainActivity()
-        }
+    private fun updateItem(identification: String) = with(binding) {
+        viewModel.getItem(identification)
+        setupUpdateClick(identification)
     }
 
     private fun navigateToMainActivity() {
@@ -111,20 +64,80 @@ class FormularyActivity : AppCompatActivity() {
                 }
             }
         }
+
         return titleEdit.text.toString().isNotBlank() &&
                 descriptionEdit.text.toString().isNotBlank() &&
                 menssageEdit.text.toString().isNotBlank()
     }
 
-    private fun configurarClickFavoritar() = with(binding) {
+    private fun setupRegisterAndFavoriteClick() = with(binding) {
         favorito.setOnClickListener {
-            foiFavoritado = !foiFavoritado
-            if (foiFavoritado) {
-                favorito.setBackgroundResource(R.drawable.start_full)
-            } else {
-                favorito.setBackgroundResource(R.drawable.start_border)
+            viewModel.updateStateFavorite()
+        }
+        cadastrar.setOnClickListener {
+            if (isValidFields()) {
+                createNewObject(
+                    Noticias(
+                        title = titleEdit.text.toString(),
+                        description = descriptionEdit.text.toString(),
+                        mensagem = menssageEdit.text.toString(),
+                        favoritado = isFavorite
+                    )
+                )
+                navigateToMainActivity()
             }
         }
+    }
+
+    private fun setupUpdateClick(
+        identification: String
+    ) = with(binding) {
+        atualizar.setOnClickListener {
+            DataBase().updateItem(identification, Noticias(
+                title = titleEdit.text.toString(),
+                description = descriptionEdit.text.toString(),
+                mensagem = menssageEdit.text.toString(),
+                favoritado = isFavorite
+            ))
+            navigateToMainActivity()
+        }
+    }
+
+    private fun observer(){
+        viewModel.state.observe(this) { state ->
+            state?.noticia?.let {
+                configForm(it)
+                updateStateFavorite(state.isFavorite)
+                updateStateButton(state.isEnabled)
+            }
+        }
+    }
+
+    private fun configForm(noticia: Noticias) = with(binding){
+        titleEdit.setText(noticia.title)
+        descriptionEdit.setText(noticia.description)
+        menssageEdit.setText(noticia.mensagem)
+    }
+
+    private fun updateStateFavorite(isFavorite: Boolean) = with(binding){
+        val favorite = if (isFavorite) {
+            R.drawable.start_full
+        } else {
+            R.drawable.start_border
+        }
+        favorito.setBackgroundResource(favorite)
+    }
+
+    private fun updateStateButton(enabled: Boolean) = with(binding) {
+        cadastrar.isEnabled = enabled
+        if(!enabled){
+            cadastrar.setBackgroundColor(Color.GRAY)
+            cadastrar.setTextColor(Color.WHITE)
+        }
+    }
+
+    companion object {
+        const val TITLE_KEY = "titulo"
     }
 
 }
